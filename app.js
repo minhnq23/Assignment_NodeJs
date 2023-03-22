@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
+//import routes
 const registerRouter = require("./router.js");
 
 const port = 8080;
 // const router = express.Router();
 const expressHbs = require("express-handlebars");
-// api json
-const API_URL = "http://192.168.0.101:3000/";
+
+// dùng router
 app.use("/", registerRouter);
 
 app.set("view engine", "hbs");

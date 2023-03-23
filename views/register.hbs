@@ -26,26 +26,31 @@
         <div class="row">
           <div class="colm-form">
             <div class="form-container">
-              <form class="colm-form">
+              <form
+                class="colm-form"
+                method="POST"
+                action="/register"
+                enctype="multipart/form-data"
+                onsubmit="return validateForm()"
+              >
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email address</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter email"
-                  />
+                  <input type="email" name="email" placeholder="Email" />
 
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password</label>
                   <input
                     type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
+                    id="password"
+                    name="password"
                     placeholder="Password"
                   />
+
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Avatar</label>
+                  <input type="file" name="myImage" accept="image/*" />
 
                 </div>
                 <h5 id="register-link">Đăng ký</h5>
@@ -61,7 +66,7 @@
 
     </footer>
   </body>
-  
+
   <style>
     * { padding: 0; margin: 0; box-sizing: border-box; } body { font-family:
     "Poppins", sans-serif; background-color: #f0f2f5; color: #1c1e21; } main {
@@ -93,4 +98,15 @@
     a:hover { text-decoration: underline; }
 
   </style>
+
+  <script>
+    function validateForm() { const email =
+    document.getElementById('email').value; const password =
+    document.getElementById('password').value; if (!email || !password) {
+    alert('Email and password are required'); return false; } if
+    (!isValidEmail(email)) { alert('Invalid email format'); return false; } //
+    Form is valid, allow submission return true; } function isValidEmail(email)
+    { // Check email format here, e.g. using regular expression // Return true
+    if email is valid, false otherwise }
+  </script>
 </html>

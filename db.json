@@ -1,7 +1,94 @@
 {
   "user": [
-    { "id": 1, "email": "minhg1@example.com", "password": "1234" },
-    { "id": 2, "email": "minhg2@example.com", "password": "1234" },
-    { "id": 3, "email": "minhg3@example.com", "password": "1234" }
+    {
+      "id": 1,
+      "email": "minhg1@example.com",
+      "password": "1234"
+    },
+    {
+      "id": 2,
+      "email": "minhg2@example.com",
+      "password": "1234"
+    },
+    {
+      "id": 3,
+      "email": "minhg3@example.com",
+      "password": "1234"
+    },
+    {
+      "email": "minhnguyen31223@gmail.com",
+      "password": "546456",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "pasue.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679580776543.png",
+        "path": "uploads\\MyAvatar-1679580776543.png",
+        "size": 44132
+      },
+      "id": 4
+    },
+    {
+      "email": "minhnguyen31223@gmail.com",
+      "password": "ieesfsf",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "home.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679591513001.png",
+        "path": "uploads\\MyAvatar-1679591513001.png",
+        "size": 50327
+      },
+      "id": 5
+    },
+    {
+      "email": "minhnguyen31223@gmail.com",
+      "password": "ieesfsf",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "home.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679591517866.png",
+        "path": "uploads\\MyAvatar-1679591517866.png",
+        "size": 50327
+      },
+      "id": 6
+    },
+    {
+      "email": "minhnqph25450@fpt.edu.vn",
+      "password": "5465464",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "play.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679591559903.png",
+        "path": "uploads\\MyAvatar-1679591559903.png",
+        "size": 44715
+      },
+      "id": 7
+    },
+    {
+      "email": "minhnqph25450@fpt.edu.vn",
+      "password": "5465464",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "play.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679591565146.png",
+        "path": "uploads\\MyAvatar-1679591565146.png",
+        "size": 44715
+      },
+      "id": 8
+    }
   ]
 }

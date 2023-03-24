@@ -4,18 +4,20 @@ const fs = require("fs");
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
+
 //import routes
 const registerRouter = require("./router.js");
 const port = 8080;
 const expressHbs = require("express-handlebars");
-const router = require("./router.js");
-const API_URL = "http://192.168.0.101:3000";
+const homeRouter = require("./HomeRouter.js");
+const API_URL = "http://192.168.0.100:3000";
 const API_USER = `${API_URL}/user`;
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 // dùng router
 app.use("/", registerRouter);
+app.use("/", homeRouter);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -30,7 +32,7 @@ app.engine(
     layoutsDir: "views/",
   })
 );
-app.listen(port);
+
 app.get("/", (req, res) => {
   res.render("login");
 });
@@ -53,11 +55,43 @@ var cut = (name) => {
 };
 
 const upload = multer({ storage: storage });
+//
+//
+//
+app.post("/", (req, res) => {
+  console.log("click login");
+  console.log(req.body);
 
+  let myArray = [];
+
+  fetch(API_USER)
+    .then((response) => response.json())
+    .then((data) => {
+      myArray.push(...data);
+      console.log("data:" + data.length);
+      loginApp(req, res, data);
+    });
+});
+//
+const loginApp = (req, res, users) => {
+  console.log("users: " + users.length);
+  const email = req.body.email;
+  const password = req.body.password;
+  users.forEach((item) => {
+    console.log(item.id + "");
+    if (item.email == email && item.password == password) {
+      res.redirect("/home");
+    }
+  });
+};
+//
+//
+//
 app.post("/register", upload.single("myImage"), (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const avatar = req.file;
+
   if (!avatar) {
     const error = new Error("Please upload a file");
     error.httpStatusCode = 400;
@@ -83,6 +117,7 @@ app.post("/register", upload.single("myImage"), (req, res, next) => {
     .catch((error) => {
       console.error("Error:", error);
     });
-
-  res.render("login");
+  res.redirect("/");
 });
+
+app.listen(port);

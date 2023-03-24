@@ -23,12 +23,17 @@
   <body>
     <main>
       <div class="container-fluid">
+        <div class="jumbotron text-center">
+          <h2>Đăng ký tài khoản</h2>
+
+        </div>
         <div class="row">
           <div class="colm-form">
             <div class="form-container">
               <form
                 class="colm-form"
                 method="POST"
+                id="myForm"
                 action="/register"
                 enctype="multipart/form-data"
                 onsubmit="return validateForm()"
@@ -51,11 +56,8 @@
                 <div class="form-group">
                   <label for="exampleInputEmail1">Avatar</label>
                   <input type="file" name="myImage" accept="image/*" />
-
                 </div>
-                <h5 id="register-link">Đăng ký</h5>
-                <button type="submit" class="btn btn-primary">đăng nhập</button>
-
+                <button type="submit" class="btn btn-primary">đăng Ký</button>
               </form>
             </div>
           </div>
@@ -100,13 +102,6 @@
   </style>
 
   <script>
-    function validateForm() { const email =
-    document.getElementById('email').value; const password =
-    document.getElementById('password').value; if (!email || !password) {
-    alert('Email and password are required'); return false; } if
-    (!isValidEmail(email)) { alert('Invalid email format'); return false; } //
-    Form is valid, allow submission return true; } function isValidEmail(email)
-    { // Check email format here, e.g. using regular expression // Return true
-    if email is valid, false otherwise }
+
   </script>
 </html>

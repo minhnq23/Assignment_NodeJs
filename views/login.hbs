@@ -23,27 +23,31 @@
   <body>
     <main>
       <div class="container-fluid">
+        <div class="jumbotron text-center">
+          <h2>Đăng Nhập</h2>
+
+        </div>
         <div class="row">
           <div class="colm-form">
             <div class="form-container">
-              <form class="colm-form">
+              <form
+                class="colm-form"
+                method="POST"
+                id="myForm"
+                action="/"
+                onsubmit="return validateForm()"
+              >
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email address</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter email"
-                  />
+                  <input type="email" name="email" placeholder="Email" />
 
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password</label>
                   <input
                     type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
+                    id="password"
+                    name="password"
                     placeholder="Password"
                   />
 
@@ -65,6 +69,7 @@
 
     document.getElementById("register-link").addEventListener("click",
     function() { window.location.href = "./register"; console.log("hehe"); } );
+
   </script>
   <style>
     * { padding: 0; margin: 0; box-sizing: border-box; } body { font-family:

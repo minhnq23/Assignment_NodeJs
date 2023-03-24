@@ -89,6 +89,36 @@
         "size": 44715
       },
       "id": 8
+    },
+    {
+      "email": "minh12345@gmail.com",
+      "password": "12345",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "music.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679660748626.png",
+        "path": "uploads\\MyAvatar-1679660748626.png",
+        "size": 45283
+      },
+      "id": 9
+    },
+    {
+      "email": "minh9@gmail.com",
+      "password": "9",
+      "avatar": {
+        "fieldname": "myImage",
+        "originalname": "music.png",
+        "encoding": "7bit",
+        "mimetype": "image/png",
+        "destination": "uploads",
+        "filename": "MyAvatar-1679662009790.png",
+        "path": "uploads\\MyAvatar-1679662009790.png",
+        "size": 45283
+      },
+      "id": 10
     }
   ]
 }

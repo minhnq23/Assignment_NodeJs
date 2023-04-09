@@ -32,7 +32,8 @@
                 <th>Email</th>
                 <th>Password</th>
                 <th>Avatar</th>
-                <th></th>
+                <th>Action</th>
+                <th>Phân quyền</th>
               </tr>
             </thead>
             <tbody>
@@ -43,7 +44,8 @@
                   <td>{{this.password}}</td>
                   <td>
                     <img
-                      src="../{{this.avatarPath}}"
+                      style="height: 100px; width: 100px;"
+                      src="https://via.placeholder.com/150"
                       alt="Avatar"
                       class="img-thumbnail"
                     />
@@ -57,6 +59,10 @@
                       href="/user/{{_id}}/edit"
                       class="btn btn-primary"
                     >edit</a>
+                  </td>
+                  <td>
+                    <a href="/user/admin/{{_id}}" class="btn btn-primary">xác
+                      nhận</a>
                   </td>
                 </tr>
               {{/each}}

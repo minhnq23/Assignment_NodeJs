@@ -33,9 +33,10 @@
                   />
                 </div>
                 <div class="col-md-8">
-                  <p><strong>ID:</strong> 123456</p>
-                  <p><strong>Email:</strong> john.doe@example.com</p>
-                  <button class="btn btn-primary">Edit Profile</button>
+                  <p><strong>ID:</strong> {{user._id}}</p>
+                  <p><strong>Email:</strong> {{user.email}}</p>
+                  <a href="/user/{{user._id}}/edit" class="btn btn-primary">Edit
+                    Profile</a>
                 </div>
               </div>
             </div>

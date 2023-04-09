@@ -43,6 +43,15 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.engine(
+  ".hbs",
+  expressHbs.engine({
+    extname: "hbs",
+    defaultLayout: false,
+    layoutsDir: "views/",
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(
@@ -77,30 +86,32 @@ passport.deserializeUser(async (id, done) => {
     done(err, null);
   }
 });
-
+app.get("/", (req, res) => {
+  res.render("login");
+});
 function requireAdmin(req, res, next) {
   if (req.user && req.user.isAdmin) {
     return next();
   } else if (req.user) {
-    res.redirect("/register");
+    res.redirect("/profile/" + req.user._id);
   } else {
-    res.redirect("/");
+    res.sendStatus(403);
   }
 }
+const requireLogin = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+};
+//
 
-app.engine(
-  ".hbs",
-  expressHbs.engine({
-    extname: "hbs",
-    defaultLayout: false,
-    layoutsDir: "views/",
-  })
-);
-
-app.get("/", (req, res) => {
-  res.render("login");
+app.get("/profile/:id", async (req, res) => {
+  const id = req.params.id;
+  const user = await UserModel.findById(id).lean();
+  res.render("userHome", { user });
 });
-
 // Set up Multer
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -134,48 +145,15 @@ const upload = multer({ storage: storage });
 app.post(
   "/",
   passport.authenticate("local", { failureRedirect: "/register" }),
-
   (req, res) => {
-    // await mongoose
-    //   .connect(uri)
-    //   .then(console.log("connect success"))
-    //   .catch(console.log("connect error"));
     res.redirect("/home");
-    // console.log("click login");
-    // console.log(req.body);
-    // const email = req.body.email;
-    // const password = req.body.password;
-    // let myArray = [];
-    // myArray = await UserModel.find().lean();
-    // console.log(myArray.length);
-    // for (let i = 0; i < myArray.length; i++) {
-    //   if (email == myArray[i].email && password == myArray[i].password) {
-    //     let userLogin = new UserModel(myArray[i]);
-    //     res.redirect("/home");
-    //   }
-    // }
   }
 );
 //
-// const loginApp = (req, res, users) => {
-//   console.log("users: " + users.length);
-//   const email = req.body.email;
-//   const password = req.body.password;
-//   users.forEach((item) => {
-//     console.log(item.id + "");
-//     if (item.email == email && item.password == password) {
-//       res.redirect("/home");
-//     }
-//   });
-// };
-//
+
 //
 //
 app.post("/register", upload.single("myImage"), async (req, res, next) => {
-  // await mongoose
-  //   .connect(uri)
-  //   .then(console.log("connect success"))
-  //   .catch(console.log("connect error"));
   console.log(req.body);
   const emailText = req.body.email;
   const passwordText = req.body.password;
@@ -185,7 +163,7 @@ app.post("/register", upload.single("myImage"), async (req, res, next) => {
     email: emailText,
     password: passwordText,
     avatarPath: avatarText,
-    isAdmin: true,
+    isAdmin: false,
   });
   newUser
     .save()
@@ -198,11 +176,7 @@ app.post("/register", upload.single("myImage"), async (req, res, next) => {
 
 app.listen(port);
 
-app.get("/user/delete/:id", async (req, res) => {
-  // await mongoose
-  //   .connect(uri)
-  //   .then(console.log("connect success"))
-  //   .catch(console.log("connect error"));
+app.get("/user/delete/:id", requireAdmin, async (req, res) => {
   try {
     const _id = req.params.id;
     const deletedUser = await UserModel.findByIdAndDelete(_id);
@@ -215,11 +189,7 @@ app.get("/user/delete/:id", async (req, res) => {
     res.status(500).send("Lỗi server khi xóa user");
   }
 });
-app.get("/product/delete/:id", async (req, res) => {
-  // await mongoose
-  //   .connect(uri)
-  //   .then(console.log("connect success"))
-  //   .catch(console.log("connect error"));
+app.get("/product/delete/:id", requireAdmin, async (req, res) => {
   try {
     const _id = req.params.id;
     const deletedProduct = await ProductModel.findByIdAndDelete(_id);
@@ -233,20 +203,25 @@ app.get("/product/delete/:id", async (req, res) => {
   }
 });
 
-app.get("/user/:id/edit", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const user = await UserModel.findById(id).lean();
-    if (!user) {
-      return res.status(404).send("Không tìm thấy user");
+app.get(
+  "/user/:id/edit",
+
+  requireLogin,
+  async (req, res) => {
+    const id = req.params.id;
+    try {
+      const user = await UserModel.findById(id).lean();
+      if (!user) {
+        return res.status(404).send("Không tìm thấy user");
+      }
+      res.render("editUser", { user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Lỗi server");
     }
-    res.render("editUser", { user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Lỗi server");
   }
-});
-app.get("/product/:id/edit", async (req, res) => {
+);
+app.get("/product/:id/edit", requireAdmin, async (req, res) => {
   const id = req.params.id;
   try {
     const product = await ProductModel.findById(id).lean();
@@ -260,18 +235,43 @@ app.get("/product/:id/edit", async (req, res) => {
   }
 });
 
-app.post("/user/:id", async (req, res) => {
-  // await mongoose.connect(uri).then(console.log("Ket noi DB thanh cong."));
+app.post("/product/:id", requireAdmin, async (req, res) => {
   const id = req.params.id;
-  const emailText = req.body.email;
-  const passwordText = req.body.password;
-  const avatarText = req.file.path;
-  UserModel.findByIdAndUpdate(id, {
-    email: nameProduct,
-    email: emailText,
-    password: passwordText,
-    avatarPath: avatarText,
-    status: 1,
+
+  const nameProduct = req.body.nameProduct;
+  const priceProduct = req.body.price;
+  const colorProduct = req.body.color;
+  await ProductModel.findByIdAndUpdate(id, {
+    name: nameProduct,
+    price: priceProduct,
+    image: "",
+    color: colorProduct,
   });
   res.redirect("/home");
 });
+
+app.get("/user/admin/:id", async (req, res) => {
+  const id = req.params.id;
+  await UserModel.findByIdAndUpdate(id, {
+    isAdmin: true,
+  });
+  res.redirect("/home");
+});
+app.post(
+  "/user/:id",
+  upload.single("myImage"),
+  requireLogin,
+  async (req, res) => {
+    // await mongoose.connect(uri).then(console.log("Ket noi DB thanh cong."));
+    const id = req.params.id;
+    const emailText = req.body.email;
+    const passwordText = req.body.password;
+    const avatarText = req.file.path;
+    await UserModel.findByIdAndUpdate(id, {
+      email: emailText,
+      password: passwordText,
+      avatarPath: avatarText,
+    });
+    res.redirect("/home");
+  }
+);

@@ -34,7 +34,7 @@
                 class="colm-form"
                 method="POST"
                 id="myForm"
-                action="/user/{{user.id}}"
+                action="/user/{{user._id}}"
                 enctype="multipart/form-data"
                 onsubmit="return validateForm()"
               >
@@ -63,7 +63,7 @@
                   <label for="exampleInputEmail1">Avatar</label>
                   <input type="file" name="myImage" accept="image/*" />
                 </div>
-                <button type="submit" class="btn btn-primary">đăng Ký</button>
+                <button type="submit" class="btn btn-primary">save</button>
               </form>
             </div>
           </div>
